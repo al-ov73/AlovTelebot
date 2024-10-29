@@ -6,7 +6,7 @@ authors = ["al-ov73 <klever1987@yandex.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 aiogram = "^3.13.1"
 
 
