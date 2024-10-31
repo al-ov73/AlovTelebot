@@ -1,10 +1,8 @@
 import asyncio
-import fastapi
 import logging
+import os
 import sys
-from os import getenv
 
-from unicorn import Unicorn
 
 from aiogram import Bot, Dispatcher, html
 from aiogram.client.default import DefaultBotProperties
@@ -12,15 +10,9 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
-TOKEN = '6914939892:AAHxAsWcHIEIcaEz0qgtLGY6XA0Fz64n95A'
+TOKEN = os.getenv('TOKEN')
 
 dp = Dispatcher()
-
-app = fastapi.FastAPI()
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
 
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
@@ -47,16 +39,6 @@ async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     await dp.start_polling(bot)
 
-
-def run_server():
-    unicorn = Unicorn(worker_class='sync', config={
-        'bind': '127.0.0.1:8000',
-        'worker_processes': 4,
-        'timeout': 60
-    })
-    unicorn.run()
-
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-    run_server()
     asyncio.run(main())
